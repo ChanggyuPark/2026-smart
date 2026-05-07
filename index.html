@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 스마트공방 | YC Corporation</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Noto Sans KR',sans-serif; background:#f4f6f9; color:#1a1a2e; overflow-x:hidden; font-size:15px; line-height:1.6; }
+a { text-decoration:none; color:inherit; }
+.wrap { max-width:1040px; margin:0 auto; padding:0 24px; }
+
+.float-btn { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:999; background:#2563eb; color:#fff; font-weight:900; font-size:14px; padding:13px 32px; border-radius:50px; white-space:nowrap; box-shadow:0 4px 24px rgba(37,99,235,0.4); animation:pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 4px 24px rgba(37,99,235,0.4)} 50%{box-shadow:0 8px 40px rgba(37,99,235,0.65)} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+section { padding:60px 0; }
+.bg-white { background:#fff; }
+.bg-gray { background:#f4f6f9; }
+.bg-blue { background:#eff6ff; }
+.bg-dark { background:#1e293b; }
+.tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; color:#2563eb; background:#dbeafe; padding:4px 12px; border-radius:20px; margin-bottom:12px; text-transform:uppercase; }
+.tag.white { background:rgba(255,255,255,0.2); color:#fff; }
+.stit { font-size:clamp(22px,3.5vw,32px); font-weight:900; line-height:1.25; margin-bottom:10px; }
+.stit em { color:#2563eb; font-style:normal; }
+.ssub { font-size:14px; color:#64748b; line-height:1.75; margin-bottom:32px; }
+
+/* TYPE */
+.type-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.type-card { background:#fff; border-radius:12px; padding:22px 18px; border:2px solid #e2e8f0; transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s; }
+.type-card:hover { border-color:#2563eb; transform:translateY(-3px); box-shadow:0 8px 24px rgba(37,99,235,0.1); }
+.type-chip { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:20px; margin-bottom:10px; }
+.type-chip.a { background:#dbeafe; color:#1d4ed8; }
+.type-chip.b { background:#d1fae5; color:#065f46; }
+.type-chip.c { background:#fef3c7; color:#92400e; }
+.type-name { font-size:15px; font-weight:900; margin-bottom:7px; color:#1e293b; }
+.type-desc { font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px; }
+.type-cond { font-size:12px; color:#94a3b8; padding-top:10px; border-top:1px solid #f1f5f9; }
+.type-cond strong { color:#475569; }
+.nope-row { display:flex; flex-wrap:wrap; gap:8px; }
+.nope-chip { display:inline-flex; align-items:center; gap:5px; background:#fff; border:1px solid #fecaca; border-radius:6px; padding:7px 12px; font-size:13px; color:#b91c1c; }
+.nope-chip::before { content:'✕'; font-weight:900; font-size:10px; }
+
+/* WHY YC */
+.why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.why-card { background:#fff; border-radius:12px; overflow:hidden; border:1px solid #e2e8f0; transition:box-shadow 0.2s,transform 0.2s; }
+.why-card:hover { box-shadow:0 6px 20px rgba(37,99,235,0.1); transform:translateY(-2px); }
+.why-thumb { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,#dbeafe,#eff6ff); display:flex; align-items:center; justify-content:center; font-size:36px; border-bottom:1px solid #e2e8f0; overflow:hidden; position:relative; }
+.why-thumb img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+.why-thumb-placeholder { position:relative; z-index:1; }
+.why-body { padding:16px; }
+.why-num { font-size:11px; font-weight:700; color:#2563eb; margin-bottom:6px; letter-spacing:1px; }
+.why-title { font-size:14px; font-weight:900; color:#1e293b; margin-bottom:6px; line-height:1.4; }
+.why-desc { font-size:12px; color:#64748b; line-height:1.7; }
+
+.supplier-banner { margin-top:28px; background:linear-gradient(135deg,#1e3a8a,#2563eb); border-radius:12px; padding:20px 24px; display:flex; align-items:center; gap:16px; }
+.supplier-banner-icon { font-size:28px; flex-shrink:0; }
+.supplier-banner-txt { color:#fff; }
+.supplier-banner-title { font-size:15px; font-weight:900; margin-bottom:4px; }
+.supplier-banner-desc { font-size:13px; color:rgba(255,255,255,0.78); line-height:1.6; }
+.supplier-banner-desc em { color:#bfdbfe; font-style:normal; font-weight:700; }
+
+/* 독립 H/W · S/W 슬라이더 */
+.dual-label-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.dual-label { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; padding:5px 14px; border-radius:20px; }
+.dual-label.hw { background:#dbeafe; color:#1d4ed8; }
+.dual-label.sw { background:#d1fae5; color:#065f46; }
+.dual-sliders-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+.ind-slider { border-radius:14px; overflow:hidden; background:#fff; border:1px solid #e2e8f0; }
+.ind-track-wrap { overflow:hidden; }
+.ind-track { display:flex; transition:transform 0.4s ease; }
+.ind-slide { min-width:100%; display:flex; flex-direction:column; }
+.ind-thumb { width:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; font-size:38px; position:relative; overflow:hidden; border-bottom:1px solid #e2e8f0; }
+.ind-thumb.hw-bg { background:linear-gradient(135deg,#dbeafe,#eff6ff); }
+.ind-thumb.sw-bg { background:linear-gradient(135deg,#d1fae5,#ecfdf5); }
+.ind-thumb img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+.ind-thumb-ph { position:relative; z-index:1; }
+.ind-body { padding:18px 20px; }
+.ind-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1.5px; padding:3px 10px; border-radius:20px; margin-bottom:7px; text-transform:uppercase; }
+.ind-badge.hw { background:#dbeafe; color:#1d4ed8; }
+.ind-badge.sw { background:#d1fae5; color:#065f46; }
+.ind-title { font-size:15px; font-weight:900; color:#1e293b; margin-bottom:5px; }
+.ind-desc { font-size:12px; color:#64748b; line-height:1.7; }
+.ind-controls { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-top:1px solid #f1f5f9; }
+.ind-dots { display:flex; gap:6px; }
+.ind-dot { width:7px; height:7px; border-radius:50%; background:#e2e8f0; cursor:pointer; transition:background 0.2s,transform 0.2s; }
+.ind-dot.active { background:#2563eb; transform:scale(1.3); }
+.ind-arrows { display:flex; gap:6px; }
+.ind-arrow { width:30px; height:30px; border-radius:50%; background:#f8fafc; border:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; color:#475569; transition:background 0.2s,border-color 0.2s; user-select:none; }
+.ind-arrow:hover { background:#dbeafe; border-color:#2563eb; color:#2563eb; }
+
+/* PAIN */
+.pain-layout { display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:start; }
+.pain-visual { background:linear-gradient(135deg,#1e3a8a,#2563eb); border-radius:16px; padding:28px 22px; color:#fff; }
+.pain-visual-title { font-size:17px; font-weight:900; margin-bottom:18px; line-height:1.4; }
+.pain-items { display:flex; flex-direction:column; gap:10px; }
+.pain-item { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:12px 14px; }
+.pain-itag { font-size:10px; font-weight:700; color:#bfdbfe; letter-spacing:1.5px; margin-bottom:5px; }
+.pain-iq { font-size:13px; font-weight:700; color:#fff; line-height:1.5; }
+.check-list { display:flex; flex-direction:column; gap:10px; }
+.check-item { display:flex; gap:12px; align-items:flex-start; background:#fff; border-radius:10px; padding:14px 16px; border:1px solid #e2e8f0; }
+.check-ic { font-size:16px; flex-shrink:0; }
+.check-title { font-size:14px; font-weight:700; color:#1e293b; margin-bottom:3px; }
+.check-desc { font-size:12px; color:#94a3b8; line-height:1.6; }
+
+/* CASES */
+.case-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.case-card { background:#fff; border-radius:12px; overflow:hidden; border:1px solid #e2e8f0; transition:box-shadow 0.2s,transform 0.2s; cursor:pointer; display:block; }
+.case-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.1); transform:translateY(-3px); }
+.case-thumb { aspect-ratio:16/9; background:linear-gradient(135deg,#dbeafe,#eff6ff); display:flex; align-items:center; justify-content:center; font-size:32px; border-bottom:1px solid #e2e8f0; position:relative; overflow:hidden; }
+.case-thumb img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+.case-thumb-ph { position:relative; z-index:1; }
+.case-body { padding:16px; }
+.case-tag { font-size:10px; font-weight:700; color:#2563eb; letter-spacing:1.5px; margin-bottom:5px; }
+.case-company { font-size:14px; font-weight:900; color:#1e293b; margin-bottom:5px; }
+.case-q { font-size:12px; line-height:1.7; color:#64748b; }
+.case-link { font-size:12px; color:#2563eb; font-weight:700; margin-top:8px; display:inline-block; }
+
+/* FORM */
+.form-layout { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+.form-left-title { font-size:clamp(20px,3vw,28px); font-weight:900; color:#fff; line-height:1.3; margin-bottom:10px; }
+.form-left-sub { font-size:14px; color:rgba(255,255,255,0.65); line-height:1.75; margin-bottom:24px; }
+.form-points { display:flex; flex-direction:column; gap:10px; }
+.form-point { display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:13px 15px; }
+.form-point-ic { font-size:16px; flex-shrink:0; margin-top:1px; }
+.form-point-txt { font-size:13px; color:rgba(255,255,255,0.85); font-weight:600; line-height:1.55; }
+.workform-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.15); }
+.workform-head { background:#2563eb; padding:16px 22px; }
+.workform-head-tit { font-size:15px; font-weight:900; color:#fff; margin-bottom:2px; }
+.workform-head-sub { font-size:12px; color:rgba(255,255,255,0.7); }
+.workform-body { padding:28px 24px; }
+.wf-step { display:flex; gap:16px; align-items:flex-start; margin-bottom:20px; }
+.wf-step-num { width:28px; height:28px; border-radius:50%; background:#2563eb; color:#fff; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.wf-step-title { font-size:14px; font-weight:700; color:#1e293b; margin-bottom:3px; }
+.wf-step-desc { font-size:12px; color:#94a3b8; line-height:1.5; }
+.wf-btn {
+  display:block; width:100%;
+  background:#2563eb; color:#fff;
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:16px; font-weight:900;
+  text-align:center; text-decoration:none;
+  padding:16px; border-radius:10px;
+  margin-top:8px; margin-bottom:12px;
+  transition:background 0.2s, transform 0.15s;
+  box-shadow:0 4px 16px rgba(37,99,235,0.35);
+}
+.wf-btn:hover { background:#1d4ed8; transform:translateY(-2px); box-shadow:0 6px 20px rgba(37,99,235,0.45); }
+.wf-notice { text-align:center; font-size:11px; color:#94a3b8; line-height:1.6; }
+.workform-contact { padding:14px 22px; border-top:1px solid #f1f5f9; text-align:center; }
+.workform-contact p { font-size:12px; color:#94a3b8; margin-bottom:4px; }
+.workform-contact a { font-size:13px; color:#2563eb; font-weight:700; }
+
+@media(max-width:768px) {
+  .type-grid { grid-template-columns:1fr; }
+  .why-grid { grid-template-columns:repeat(2,1fr); }
+  .pain-layout,.form-layout { grid-template-columns:1fr; }
+  .case-grid { grid-template-columns:repeat(2,1fr); }
+  .supplier-banner { flex-direction:column; gap:10px; }
+  .dual-sliders-row,.dual-label-row { grid-template-columns:1fr; }
+}
+@media(max-width:480px) {
+  .why-grid { grid-template-columns:1fr 1fr; }
+  .case-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="#form" class="float-btn">📋 무료 상담 신청하기</a>
+
+<!-- 지원 유형 -->
+<section class="bg-gray" id="type">
+  <div class="wrap">
+    <div class="tag">지원 유형</div>
+    <h2 class="stit">우리 공장은<br><em>어떤 유형에 해당할까요?</em></h2>
+    <p class="ssub">지원 유형에 따라 매출 조건이 상이합니다.</p>
+    <div class="type-grid">
+      <div class="type-card"><div class="type-chip a">공정기술형</div><div class="type-name">⚙️ 공정기술형</div><div class="type-desc">주조·금형·가공·용접 등 공정기술 기반 중간재·완제품 제조 소공인</div><div class="type-cond"><strong>매출 조건</strong> 직전년도 또는 최근 3개년 연매출 2억원 이상</div></div>
+      <div class="type-card"><div class="type-chip b">생활문화형</div><div class="type-name">👜 생활문화형</div><div class="type-desc">패션·뷰티·식품·리빙 관련 K-소비재 제품을 제조하는 소공인</div><div class="type-cond"><strong>매출 조건</strong> 직전년도 또는 최근 3개년 연매출 2억원 이상</div></div>
+      <div class="type-card"><div class="type-chip c">현안문제해결형</div><div class="type-name">🏭 현안문제해결형</div><div class="type-desc">주사기·식품포장재 등 생활 필수품 생산 소공인 *친환경 소재, 전력저감 제품생산 우선 선정</div><div class="type-cond"><strong>매출 조건</strong> 없음 (별도 요건 확인 필요)</div></div>
+    </div>
+    <div style="margin-top:20px;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid #fecaca;">
+      <div style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:10px;">⚠️ 지원 불가 항목</div>
+      <div class="nope-row">
+        <div class="nope-chip">지게차 등 차량계 기계</div>
+        <div class="nope-chip">중고 제품</div>
+        <div class="nope-chip">PC·노트북·모니터</div>
+        <div class="nope-chip">MES·ERP 등 관리 시스템</div>
+        <div class="nope-chip">설치·운송·공사비</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY YC -->
+<section class="bg-white" id="why">
+  <div class="wrap">
+    <div class="tag">왜 YC인가요?</div>
+    <h2 class="stit">장비 선정부터 사후관리까지<br><em>YC가 함께합니다</em></h2>
+    <p class="ssub">사업신청이 처음이어도 괜찮아요. YC가 처음부터 끝까지 가이드해드립니다.</p>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-thumb"><span class="why-thumb-placeholder"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778053073261_1000.jpg" alt="01"></div><div class="why-body"><div class="why-num">01</div><div class="why-title">도입기업 맞춤 1:1 무료 컨설팅</div><div class="why-desc">1:1 무료 컨설팅 상담을 통해 산업, 공정을 파악한 후, 가장 필요한 스마트기술을 판단하여 소공인의 디지털 전환을 지원합니다.</div></div></div>
+      <div class="why-card"><div class="why-thumb"><span class="why-thumb-placeholder"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778053073797_1000.jpg" alt="02"></div><div class="why-body"><div class="why-num">02</div><div class="why-title">준비절차 가이드 제공</div><div class="why-desc">사업신청 및 행정서류 준비, e-나라도움 활용 가이드로 원활한 진행을 지원합니다.</div></div></div>
+      <div class="why-card"><div class="why-thumb"><span class="why-thumb-placeholder"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778053073676_1000.jpg" alt="03"></div><div class="why-body"><div class="why-num">03</div><div class="why-title">S/W · H/W 공급</div><div class="why-desc">선정한 스마트기술(S/W, H/W)을 공급합니다. 업종·공정에 최적화된 장비와 소프트웨어를 도입하여 제조 현장을 스마트하게 전환합니다.</div></div></div>
+      <div class="why-card"><div class="why-thumb"><span class="why-thumb-placeholder"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778053073399_1000.jpg" alt="04"></div><div class="why-body"><div class="why-num">04</div><div class="why-title">사업운영 관리 (공급기업 역할 수행)</div><div class="why-desc">서류 준비 지원, 맞춤형 기술 개발 & 공급 & 공정적용교육 & 사후관리, 미팅 참석, 업무수행 & KPI 관리까지 모두 지원합니다.</div></div></div>
+      <div class="why-card"><div class="why-thumb"><span class="why-thumb-placeholder"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778053073123_1000.jpg" alt="05"></div><div class="why-body"><div class="why-num">05</div><div class="why-title">교육 + 사후관리</div><div class="why-desc">장비 공급 후 공정 적용 교육과 철저한 유지보수, 사후관리까지 협약기간 5년간 지속 지원합니다.</div></div></div>
+      <div class="why-card"><div class="why-thumb"><span class="why-thumb-placeholder"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778053073542_1000.jpg" alt="06"></div><div class="why-body"><div class="why-num">06</div><div class="why-title">구축사례 세미나 및 상담 진행</div><div class="why-desc">제조 스마트화 지원사업에 대한 이해를 돕기 위해 서울, 영남 등 전국 각지에서 구축사례를 소개하는 세미나를 진행합니다.</div></div></div>
+    </div>
+    <div class="supplier-banner">
+      <div class="supplier-banner-icon">🏭</div>
+      <div class="supplier-banner-txt">
+        <div class="supplier-banner-title">스마트제조 지원사업은 반드시 공급기업과 함께 진행해야 합니다</div>
+        <div class="supplier-banner-desc">소공인이 단독으로 신청할 수 없으며, <em>등록된 공급기업 및 장비POOL을 통해서만 장비 도입이 가능합니다.</em><br>YC코퍼레이션은 공급기업으로 등록되어 있어 바로 진행 가능합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- H/W · S/W 독립 슬라이더 -->
+<section class="bg-gray" id="hwsw">
+  <div class="wrap">
+    <div class="tag">구축 예시</div>
+    <h2 class="stit" style="margin-bottom:8px;">H/W · S/W,<br><em>이렇게 구축됩니다</em></h2>
+    <p class="ssub">리스트에 없어도 걱정 마세요. 우리 공장 맞춤형 설비, YC가 제안드립니다.</p>
+    <div class="dual-label-row">
+      <div><span class="dual-label hw">⚙️ H/W 하드웨어</span></div>
+      <div><span class="dual-label sw">💻 S/W 소프트웨어</span></div>
+    </div>
+    <div class="dual-sliders-row">
+
+      <!-- H/W 슬라이더 (5개) -->
+      <div class="ind-slider">
+        <div class="ind-track-wrap">
+          <div class="ind-track" id="hwTrack">
+            <div class="ind-slide"><div class="ind-thumb hw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234001_1000.jpg" alt="CNC"></div><div class="ind-body"><div class="ind-badge hw">H/W</div><div class="ind-title">CNC (라우터 · 선반 · 목선반)</div><div class="ind-desc">CNC 라우터, CNC 선반, CNC 목선반 등 다양한 CNC 장비를 공급합니다. 반복 가공 작업을 자동화해 정밀도와 생산성을 동시에 높입니다.</div></div></div>
+            <div class="ind-slide"><div class="ind-thumb hw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234114_1000.jpg" alt="레이저 용접기"></div><div class="ind-body"><div class="ind-badge hw">H/W</div><div class="ind-title">레이저 용접기</div><div class="ind-desc">고출력 레이저로 금속 소재를 정밀하게 용접합니다. 기존 용접 대비 열변형이 적고 품질이 균일합니다.</div></div></div>
+            <div class="ind-slide"><div class="ind-thumb hw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234250_1000.jpg" alt="레이저 커팅기"></div><div class="ind-body"><div class="ind-badge hw">H/W</div><div class="ind-title">레이저 커팅기 (파이버 · CNC · CO2)</div><div class="ind-desc">파이버, CNC, CO2 등 소재와 용도에 맞는 레이저 커팅기를 공급합니다. 정밀 재단으로 소재 손실을 최소화합니다.</div></div></div>
+            <div class="ind-slide"><div class="ind-thumb hw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234456_1000.jpg" alt="로봇 시스템"></div><div class="ind-body"><div class="ind-badge hw">H/W</div><div class="ind-title">로봇 시스템</div><div class="ind-desc">협동로봇, 산업용 로봇 등 공정에 최적화된 로봇 시스템을 구축합니다. 반복 작업 자동화로 인력 의존도를 줄이고 생산성을 높입니다.</div></div></div>
+            <div class="ind-slide"><div class="ind-thumb hw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234564_1000.jpg" alt="문자밴딩/용접머신"></div><div class="ind-body"><div class="ind-badge hw">H/W</div><div class="ind-title">문자밴딩 · 용접머신</div><div class="ind-desc">간판, 문자 제작에 특화된 밴딩 및 용접 자동화 장비입니다. 수작업 대비 작업 시간을 단축하고 품질 균일성을 확보합니다.</div></div></div>
+            <div class="ind-slide"><div class="ind-thumb hw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234664_1000.jpg" alt="절곡기"></div><div class="ind-body"><div class="ind-badge hw">H/W</div><div class="ind-title">절곡기</div><div class="ind-desc">금속 판재를 정밀하게 구부리는 절곡 공정을 자동화합니다. 일관된 각도와 치수로 불량률을 줄이고 작업 효율을 높입니다.</div></div></div>
+          </div>
+        </div>
+        <div class="ind-controls">
+          <div class="ind-dots" id="hwDots"></div>
+          <div class="ind-arrows">
+            <div class="ind-arrow" onclick="moveInd('hw',-1)">←</div>
+            <div class="ind-arrow" onclick="moveInd('hw',1)">→</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S/W 슬라이더 (4개) -->
+      <div class="ind-slider">
+        <div class="ind-track-wrap">
+          <div class="ind-track" id="swTrack">
+            <div class="ind-slide"><div class="ind-thumb sw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234772_1000.jpg" alt="CAD/CAM"></div><div class="ind-body"><div class="ind-badge sw">S/W</div><div class="ind-title">CAD/CAM</div><div class="ind-desc">제품 설계(CAD)부터 가공 경로 생성(CAM)까지 디지털로 일원화합니다. 설계 오류를 줄이고 가공 공정의 정밀도와 효율을 높입니다.</div></div></div>
+            <div class="ind-slide"><div class="ind-thumb sw-bg"><span class="ind-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778059234895_1000.jpg" alt="FMES"></div><div class="ind-body"><div class="ind-badge sw">S/W</div><div class="ind-title">공장에너지관리시스템 (FEMS)</div><div class="ind-desc">공장 내 전력·가스 등 에너지 사용을 실시간으로 모니터링하고 분석합니다. 에너지 낭비를 줄이고 운영비 절감을 도와줍니다.</div></div></div>
+          </div>
+        </div>
+        <div class="ind-controls">
+          <div class="ind-dots" id="swDots"></div>
+          <div class="ind-arrows">
+            <div class="ind-arrow" onclick="moveInd('sw',-1)">←</div>
+            <div class="ind-arrow" onclick="moveInd('sw',1)">→</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PAIN + CHECK -->
+<section class="bg-blue" id="check">
+  <div class="wrap">
+    <div class="tag">우리 공장 해당되나요?</div>
+    <h2 class="stit">이런 고민 있으시면<br><em>지금 상담하세요</em></h2>
+    <div class="pain-layout">
+      <div class="pain-visual">
+        <div class="pain-visual-title">업종별 공장 사장님들의 공통된 고민</div>
+        <div class="pain-items">
+          <div class="pain-item"><div class="pain-itag">의류·봉제</div><div class="pain-iq">"재단 실수 한 번에 원단값, 공임 다 날리면 남는 게 없어요."</div></div>
+          <div class="pain-item"><div class="pain-itag">부품·금속</div><div class="pain-iq">"하루 종일 기계 옆에 붙어서 수동 세팅하려니 힘들어요."</div></div>
+          <div class="pain-item"><div class="pain-itag">식품·음료</div><div class="pain-iq">"단순 반복 포장 작업에 사람 매달려 있는 게 비효율적이에요."</div></div>
+          <div class="pain-item"><div class="pain-itag">목공·가구</div><div class="pain-iq">"노후 장비 고칠 때마다 드는 수리비, 이젠 감당이 안 돼요."</div></div>
+          <div class="pain-item"><div class="pain-itag">인쇄·출력</div><div class="pain-iq">"라벨 프린터 세팅, 생산 시간보다 더 오래 걸려요"</div></div>
+          <div class="pain-item"><div class="pain-itag">가죽·신발</div><div class="pain-iq">"자재값은 계속 오르는데 불량까지 나오면 막막해요."</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#64748b;margin-bottom:14px;">신청 전 꼭 확인하세요</div>
+        <div class="check-list">
+          <div class="check-item"><div class="check-ic">✅</div><div><div class="check-title">상시근로자 10인 미만</div><div class="check-desc">대표자 제외, 4대보험 가입 기준. 제조업 매출 비중이 가장 높아야 합니다.</div></div></div>
+          <div class="check-item"><div class="check-ic">✅</div><div><div class="check-title">사업자등록증 제조업 명시</div><div class="check-desc">한국표준산업분류 제조업(C10~C34)이 사업자등록증에 있어야 합니다.</div></div></div>
+          <div class="check-item"><div class="check-ic">✅</div><div><div class="check-title">세금 체납 없음</div><div class="check-desc">국세·지방세·4대보험 등 체납이 없어야 합니다.</div></div></div>
+          <div class="check-item"><div class="check-ic">✅</div><div><div class="check-title">자부담금 납부 가능</div><div class="check-desc">현금 최소 1,200만원 준비가 필요합니다.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="bg-white" id="cases">
+  <div class="wrap">
+    <div class="tag">YC 구축 성공사례</div>
+    <h2 class="stit">YC와 함께<br><em>스마트공방 구축에 성공한 기업들</em></h2>
+    <p class="ssub">목공·기계·공예·식품 등 다양한 업종에서 스마트제조를 실현했습니다.</p>
+    <div class="case-grid">
+      <a href="https://youtu.be/rjoE7Bl3hEs?si=qFS_fzs-MqexE67t" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056079317_1000.jpg"></div><div class="case-body"><div class="case-tag">목공 제조</div><div class="case-company">한트베르커</div><div class="case-q">목공 제조 공정에 스마트 장비를 도입해 생산성을 높인 성공사례</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://www.ycgroup.co.kr/blogPost/smartsuccess_5" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056078509_1000.jpg"></div><div class="case-body"><div class="case-tag">교육용 교구 제조</div><div class="case-company">메이커스핸즈</div><div class="case-q">교육용 교구 제조 공정 스마트화로 다품종 소량 생산 효율화 실현</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://www.ycgroup.co.kr/blogPost/sMArtsuccess_4" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056078957_1000.jpg"></div><div class="case-body"><div class="case-tag">기계 제조</div><div class="case-company">엠에이앤크래프트</div><div class="case-q">기계제조 업종 스마트 장비 도입으로 납기 단축 및 불량률 감소 실현</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://youtu.be/Zf3vA-0R-Ug?si=prRRvfcCqE3PHl3g" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056079144_1000.jpg"></div><div class="case-body"><div class="case-tag">식품 제조</div><div class="case-company">폴스웨이커피공장</div><div class="case-q">식품 제조 공정 자동화를 통해 위생·품질·생산성을 동시에 개선한 사례</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://www.ycgroup.co.kr/blogPost/sMArtsuccess_3" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056078224_1000.jpg"></div><div class="case-body"><div class="case-tag">공예 제조</div><div class="case-company">가온도예</div><div class="case-q">도예 공정에 스마트 장비를 도입해 수작업 한계를 극복하고 생산성 향상</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://www.ycgroup.co.kr/blogPost/smartsuccess_6" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056078778_1000.jpg"></div><div class="case-body"><div class="case-tag">공예 제조</div><div class="case-company">에이치아트</div><div class="case-q">공예 산업에서 스마트제조 도입으로 작업 효율화 및 품질 균일성 확보</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://youtu.be/tl0fgGLPvxo?si=cCgONGmo8TZI-Fma" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056078630_1000.jpg"></div><div class="case-body"><div class="case-tag">기타 기계 및 장비 제조</div><div class="case-company">모도리</div><div class="case-q">기계·장비 제조 업종의 공정 디지털화로 납기 안정성 및 품질 향상 실현</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://youtu.be/aksEJ6NPoOE?si=1Llc4NHc9Dgc3eD4" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056573368_1000.jpg"></div><div class="case-body"><div class="case-tag">탄화 코르크 가구 제조</div><div class="case-company">마마떼</div><div class="case-q">친환경 코르크 가구 제조 공정에 스마트 장비를 도입해 생산 효율화 달성</div><div class="case-link">자세히 보기 →</div></div></a>
+      <a href="https://youtu.be/-6OU5cLxPqY?si=GDon4jYxqaRcVc1Z" target="_blank" class="case-card"><div class="case-thumb"><span class="case-thumb-ph"></span><img src="https://contents.sixshop.com/thumbnails/uploadedFiles/69426/blogPost/image_1778056874692_1000.jpg"></div><div class="case-body"><div class="case-tag">목공 제조</div><div class="case-company">잘생긴가게</div><div class="case-q">목공 제조 공정에 스마트 장비를 도입해 생산성을 높인 성공사례</div><div class="case-link">자세히 보기 →</div></div></a>
+    </div>
+    <div style="text-align:center;margin-top:22px;">
+      <a href="https://www.ycgroup.co.kr/smartsuccess" target="_blank" style="display:inline-block;background:#eff6ff;color:#2563eb;font-weight:700;font-size:14px;padding:12px 28px;border-radius:8px;border:1px solid #bfdbfe;">전체 성공사례 보기 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FORM — monday WorkForms iframe -->
+<section class="bg-dark" id="form">
+  <div class="wrap">
+    <div class="form-layout">
+      <div>
+        <div class="tag white">무료 상담 신청</div>
+        <div class="form-left-title">지금 바로<br>무료 상담 신청하세요</div>
+        <div class="form-left-sub">링크를 통해 폼 작성만 하세요!<br>기재 된 내용을 확인 후 영업일 3일 이내 연락드립니다.</div>
+        <div class="form-points">
+          <div class="form-point"><div class="form-point-ic">🔍</div><div class="form-point-txt">업종·공정 파악 후 맞춤 장비 추천</div></div>
+          <div class="form-point"><div class="form-point-ic">📋</div><div class="form-point-txt">신청 가이드 및 서류 준비 지원</div></div>
+          <div class="form-point"><div class="form-point-ic">🏭</div><div class="form-point-txt">이 사업은 반드시 공급기업과 함께해야 합니다<br><span style="font-size:11px;opacity:0.7;font-weight:400;">YC코퍼레이션은 공급기업으로 등록되어 있습니다</span></div></div>
+          <div class="form-point"><div class="form-point-ic">📞</div><div class="form-point-txt">자격 요건 확인 후 영업일 3일 이내 연락드립니다</div></div>
+        </div>
+      </div>
+
+      <!-- 상담 신청 카드 -->
+      <div class="workform-card">
+        <div class="workform-head">
+          <div class="workform-head-tit">2026년 제조업 지원사업 상담신청</div>
+          <div class="workform-head-sub">버튼 클릭 시 상담 신청 폼으로 이동합니다</div>
+        </div>
+        <div class="workform-body">
+
+          <div class="wf-step">
+            <div class="wf-step-num">01</div>
+            <div class="wf-step-txt">
+              <div class="wf-step-title">아래 버튼을 클릭하세요</div>
+              <div class="wf-step-desc">상담 신청 폼이 새 창으로 열립니다</div>
+            </div>
+          </div>
+          <div class="wf-step">
+            <div class="wf-step-num">02</div>
+            <div class="wf-step-txt">
+              <div class="wf-step-title">폼을 작성하고 제출하세요</div>
+              <div class="wf-step-desc">작성 내용을 기반으로 상담이 진행됩니다</div>
+            </div>
+          </div>
+          <div class="wf-step">
+            <div class="wf-step-num">03</div>
+            <div class="wf-step-txt">
+              <div class="wf-step-title">영업일 3일 이내 연락드립니다</div>
+              <div class="wf-step-desc">자격 요건 확인 후 담당자가 직접 연락드립니다</div>
+            </div>
+          </div>
+
+          <a href="https://wkf.ms/3YDxh7l" target="_blank" class="wf-btn">
+            📋 상담 신청하기 →
+          </a>
+
+          <p class="wf-notice">클릭 시 새 창으로 열립니다 · 작성 내용은 상담 목적으로만 사용됩니다</p>
+        </div>
+        <div class="workform-contact">
+          <p>빠른 문의</p>
+          <a href="mailto:hyj@ycgroup.co.kr">hyj@ycgroup.co.kr · 010-8698-1235</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+const indState = { hw:{cur:0,tot:0}, sw:{cur:0,tot:0} };
+
+function initInd(id) {
+  const slides = document.getElementById(id+'Track').querySelectorAll('.ind-slide');
+  const dots   = document.getElementById(id+'Dots');
+  indState[id].tot = slides.length;
+  dots.innerHTML = '';
+  slides.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'ind-dot' + (i===0?' active':'');
+    d.onclick = () => goInd(id, i);
+    dots.appendChild(d);
+  });
+}
+
+function goInd(id, idx) {
+  const s = indState[id];
+  s.cur = Math.max(0, Math.min(idx, s.tot-1));
+  document.getElementById(id+'Track').style.transform = `translateX(-${s.cur*100}%)`;
+  document.getElementById(id+'Dots').querySelectorAll('.ind-dot').forEach((d,i) => d.classList.toggle('active', i===s.cur));
+}
+
+function moveInd(id, dir) {
+  const s = indState[id];
+  goInd(id, (s.cur + dir + s.tot) % s.tot);
+}
+
+initInd('hw');
+initInd('sw');
+</script>
+</body>
+</html>
