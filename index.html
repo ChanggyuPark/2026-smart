@@ -418,5 +418,17 @@ function moveInd(id, dir) {
 initInd('hw');
 initInd('sw');
 </script>
+<script>
+  function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage({ iframeHeight: height }, '*');
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+
+  // 슬라이더 등 동적 변화 감지
+  const observer = new ResizeObserver(sendHeight);
+  observer.observe(document.body);
+</script>
 </body>
 </html>
